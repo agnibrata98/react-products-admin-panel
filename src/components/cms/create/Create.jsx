@@ -9,14 +9,15 @@ import {
   Avatar,
   Stack,
 } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { styled } from '@mui/material/styles';
 // import axiosInstance from '../../../helper/Helper';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import useDarkMode from 'use-dark-mode';
 import { endPoints } from '../../../axios/endpoints/endpoints';
 import axiosInstance from '../../../axios/helper/Helper';
+import toast from 'react-hot-toast';
 
 const Input = styled('input')({
   display: 'none',
@@ -24,6 +25,7 @@ const Input = styled('input')({
 
 const Create = () => {
   const [productPic, setProductPic] = useState(null);
+  const [loading, setLoading] = useState(false);
   let darkMode = useDarkMode();
 
   const {
@@ -35,6 +37,7 @@ const Create = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('description', data.description);
@@ -42,6 +45,7 @@ const Create = () => {
 
     try {
       const response = await axiosInstance.post(endPoints.cms.create, formData);
+      setLoading(false);
       toast(`${response.data.message}`);
       navigate('/productlist');
     } catch (error) {
@@ -156,7 +160,7 @@ const Create = () => {
                   },
                 }}
               >
-                Submit
+                {loading ? 'Creating Product...' : 'Create'}
               </Button>
             </Grid>
           </Grid>

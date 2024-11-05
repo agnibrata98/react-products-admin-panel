@@ -27,6 +27,7 @@ const ProductDetails = () => {
   const [productPic, setProductPic] = useState(null);
   const [product, setProduct] = useState(null);
   const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
   let darkMode = useDarkMode();
 
   const {
@@ -59,6 +60,7 @@ const ProductDetails = () => {
   }, [product]);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append('id', id);
     formData.append('title', data.title);
@@ -71,6 +73,7 @@ const ProductDetails = () => {
 
     try {
       const response = await axiosInstance.post(endPoints.cms.update, formData);
+      setLoading(false);
       toast(`${response.data.message}`);
       navigate('/productlist');
     } catch (error) {
@@ -185,7 +188,7 @@ const ProductDetails = () => {
                   backgroundColor: darkMode.value ? '#5c6bc0' : '#303f9f',
                 },
               }}>
-                Update
+                {loading ? 'Updating...' : 'Update Product'}
               </Button>
             </Grid>
           </Grid>

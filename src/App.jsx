@@ -6,6 +6,9 @@ import Footer from './components/layout/footer/Footer';
 import toast from 'react-hot-toast';
 import { Box } from '@mui/material';
 import { ClipLoader, BarLoader, PropagateLoader, GridLoader, RingLoader, PuffLoader } from 'react-spinners';
+import useDarkMode from 'use-dark-mode';
+
+
 
 // Lazy loading components
 const Login = lazy(() => import('./components/auth/login/Login'));
@@ -32,19 +35,20 @@ function Private({ children }) {
 
 // Function to return different loaders based on the route
 const getLoader = (path) => {
+  const darkMode = useDarkMode(false);
   switch (path) {
     case '/productlist':
-      return <GridLoader size={20} aria-label="Loading Product List" />;
+      return <GridLoader size={20} aria-label="Loading Product List" color={ darkMode.value ? '#fff' : '#000' } />;
     case '/profile':
-      return <PropagateLoader width={200} height={5} aria-label="Loading Profile" />;
+      return <PropagateLoader width={200} height={5} aria-label="Loading Profile" color={ darkMode.value ? '#fff' : '#000' } />;
     case '/about':
-      return <RingLoader size={70} aria-label="Loading About Page" />;
+      return <RingLoader size={70} aria-label="Loading About Page" color={ darkMode.value ? '#fff' : '#000' } />;
     case '/create':
-      return <PuffLoader size={70} aria-label="Loading Create Page" />;
+      return <PuffLoader size={70} aria-label="Loading Create Page" color={ darkMode.value ? '#fff' : '#000' } />;
     case '/products/:id':
-      return <BarLoader size={60} aria-label="Loading Product Details" />;
+      return <BarLoader size={60} aria-label="Loading Product Details" color={ darkMode.value ? '#fff' : '#000' } />;
     default:
-      return <ClipLoader size={70} aria-label="Loading" />;
+      return <ClipLoader size={70} aria-label="Loading" color={ darkMode.value ? '#fff' : '#000' } />;
   }
 };
 

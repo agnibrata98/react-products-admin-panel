@@ -65,6 +65,8 @@ const onSubmit = async (data) => {
     // console.log('API Response:', response.data);
     if(response.data.status===200){
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('name', response.data.data.first_name);
+      localStorage.setItem('profile_pic', response.data.data.profile_pic);
       setToken();
       toast(`${response.data.message}`);
       navigate('/home');

@@ -760,9 +760,9 @@ const Home = () => {
     </Container>
 
     {/* google map */}
-    <Container style={{ marginTop: '70px', marginBottom: '50px' }}>
+    {/* <Container style={{ marginTop: '70px', marginBottom: '50px' }}>
       <MyGoogleMap />
-    </Container>
+    </Container> */}
 
 
     

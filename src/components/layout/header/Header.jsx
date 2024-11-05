@@ -11,7 +11,8 @@ import {
   ListItem,
   ListItemText,
   Switch,
-  Tooltip
+  Tooltip,
+  Avatar
 } from "@mui/material";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,6 +21,7 @@ import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import toast from "react-hot-toast";
 import { useTokenStore } from "../../../store/authStore";
 import DarkModeToggleButton from "./DarkModeToggleButton";
+import { profile_pic } from "../../../axios/helper/Helper";
 // import { styled } from '@mui/material/styles';
 // import useDarkMode from 'use-dark-mode';
 
@@ -27,14 +29,23 @@ const Header = () => {
   const token2 = useTokenStore((state) => state.token);
   const setToken = useTokenStore((state) => state.setToken);
   // let darkMode = useDarkMode()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  // const [userName, setUserName] = useState(""); // New state for user name
+  // const [profilePic, setProfilePic] = useState(""); // New state for profile picture
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const userName = localStorage.getItem("name");
+  const profilePic = localStorage.getItem("profile_pic");
+
   useEffect(() => {
     setToken();
     // console.log(token2, "token");
+    // setUserName(localStorage.getItem("name"));
+    // setProfilePic(localStorage.getItem("profile_pic"));
   }, [])
   
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  
 
   // Check for token on mount
   // useEffect(() => {
@@ -156,6 +167,19 @@ const Header = () => {
             </Link>
           </ListItem>
         )}
+        {/* for profile pic and name */}
+        {
+          token2 && (
+            <ListItem>
+              <Box display="flex" alignItems="center" ml={2}>
+                  {profilePic && (
+                    <Avatar src={profile_pic(profilePic)} alt={userName} sx={{ width: 32, height: 32, mr: 1 }} />
+                  )}
+                  <Typography variant="body1" color="inherit">Hello {userName}</Typography>
+              </Box>
+            </ListItem>
+          )
+        }
         <ListItem>
           {token2 ? (
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -221,6 +245,20 @@ const Header = () => {
                 <Button color="inherit">Profile</Button>
               </Link>
             )}
+
+            {/* for profile pic and name */}
+
+            {
+              token2 && (
+                <Box display="flex" alignItems="center" ml={2}>
+                  {profilePic && (
+                    <Avatar src={profile_pic(profilePic)} alt={userName} sx={{ width: 32, height: 32, mr: 1 }} />
+                  )}
+                  <Typography variant="body1" color="inherit">Hello {userName}</Typography>
+                </Box>
+              )
+            }
+
             {token2 ? (
               <Button color="inherit" onClick={logOutClick}>
                 {/* LogOut */}
