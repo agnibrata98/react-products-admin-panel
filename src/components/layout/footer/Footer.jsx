@@ -3,7 +3,7 @@ import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 import React from 'react'
 
 
-var footerLinks =[
+var footerLinks = [
     {
       id: 1,
       title: "Home",
